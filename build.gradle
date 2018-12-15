@@ -25,3 +25,11 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+
+    sqlbriteVersion = '2.0.0'
+    adapterRxJavaVersion = '2.4.0'
+    retrofitVersion = '2.1.0'
+}
+
