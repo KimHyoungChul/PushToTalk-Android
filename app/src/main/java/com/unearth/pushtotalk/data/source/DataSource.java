@@ -1,12 +1,11 @@
 package com.unearth.pushtotalk.data.source;
 
-import java.util.Optional;
 
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 public interface DataSource {
 
-    Flowable<Optional<AudioModel>> createAudioFile(AudioModel audioFile);
-    void updateAudioFile();
-    void deleteAudioFile();
+    Observable<AudioModel> createAudioFile(AudioModel audioFile);
+    void updateAudioFile(AudioModel audioModel);
+    void deleteAudioFile(long id);
 }

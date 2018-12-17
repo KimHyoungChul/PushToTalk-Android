@@ -4,9 +4,11 @@ import com.unearth.pushtotalk.data.source.AudioModel;
 import com.unearth.pushtotalk.data.source.DataSource;
 
 import java.io.File;
+import java.util.Observer;
 import java.util.Optional;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -30,22 +32,25 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public Flowable<Optional<AudioModel>> createAudioFile(AudioModel audioFile) {
+    public Observable<AudioModel> createAudioFile(AudioModel audioFile) {
         IAudioApi service = mRetrofit.create(IAudioApi.class);
         File file = new File(audioFile.getLocalPath());
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(),
-                RequestBody.create(MediaType.parse("mp3/*"), file));
-        return service.uploadFile(filePart);
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(),RequestBody.create(MediaType.parse("mp4/*"), file))
+                .build();
+
+        return service.uploadFile(requestBody);
     }
 
     @Override
-    public void updateAudioFile() {
+    public void updateAudioFile(AudioModel audioModel) {
 
     }
 
     @Override
-    public void deleteAudioFile() {
+    public void deleteAudioFile(long id) {
 
     }
-
 }

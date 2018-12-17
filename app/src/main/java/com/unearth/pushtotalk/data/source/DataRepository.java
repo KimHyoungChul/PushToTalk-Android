@@ -1,10 +1,13 @@
 package com.unearth.pushtotalk.data.source;
 
-import java.util.LinkedHashMap;
-import java.util.Optional;
+import android.util.Log;
 
-import io.reactivex.Flowable;
+import java.util.LinkedHashMap;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Matthew Roberts on 12/15/2018.
@@ -17,11 +20,11 @@ public class DataRepository implements DataSource {
      * Returns the single instance of this class, creating it if necessary.
      *
      * @param audioRemoteDataSource the backend data source
-     * @param audioLocalDataSourcee  the device storage data source
+     * @param audioLocalDataSourcee the device storage data source
      * @return the {@link DataRepository} instance
      */
     public static DataRepository getInstance(@android.support.annotation.NonNull DataSource audioRemoteDataSource,
-                                              @android.support.annotation.NonNull DataSource audioLocalDataSourcee) {
+                                             @android.support.annotation.NonNull DataSource audioLocalDataSourcee) {
         if (INSTANCE == null) {
             INSTANCE = new DataRepository(audioRemoteDataSource, audioLocalDataSourcee);
         }
@@ -45,48 +48,51 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Flowable<Optional<AudioModel>> createAudioFile(AudioModel audioModel) {
+    public Observable<AudioModel> createAudioFile(AudioModel audioModel) {
 
-        Flowable<Optional<AudioModel>> remoteCreation = saveAudioFileToRemoteRepository(audioModel);
+        Observable<AudioModel> remoteCreation = saveAudioFileToRemoteRepository(audioModel);
         return remoteCreation;
     }
 
     @Override
-    public void updateAudioFile() {
+    public void updateAudioFile(AudioModel audioModel) {
 
     }
 
     @Override
-    public void deleteAudioFile() {
+    public void deleteAudioFile(long id) {
 
     }
 
     @NonNull
-    Flowable<Optional<AudioModel>> saveAudioFileToLocalRepository(@NonNull final AudioModel audioFile) {
-        return mLocalRepository
-                .createAudioFile(audioFile)
-                .doOnNext(taskOptional -> {
-                    if (taskOptional.isPresent()) {
-                        addToInMemoryCache(audioFile);
-                    }
-                })
-                .firstElement().toFlowable();
-    }
-
-    @NonNull
-    Flowable<Optional<AudioModel>> saveAudioFileToRemoteRepository(@NonNull final AudioModel audioFile) {
+    Observable<AudioModel> saveAudioFileToRemoteRepository(@NonNull final AudioModel audioFile) {
         return mRemoteRepository
                 .createAudioFile(audioFile)
-                .doOnNext(taskOptional -> {
-                    if (taskOptional.isPresent()) {
-                        AudioModel serverFile = taskOptional.get();
+                .doOnEach(new Observer<AudioModel>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(AudioModel serverFile) {
                         audioFile.setMediaUrl(serverFile.getMediaUrl());
-                        audioFile.setRemoteId(serverFile.getReoteId());
+                        audioFile.setRemoteId(serverFile.getRemoteId());
                         mLocalRepository.createAudioFile(audioFile);
                         addToInMemoryCache(audioFile);
                     }
-                })
-                .firstElement().toFlowable();
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //TODO:handle retry logic
+                        Log.e(DataRepository.class.getSimpleName(),"Network error");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private void addToInMemoryCache(AudioModel audioFile) {

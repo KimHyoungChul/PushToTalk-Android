@@ -12,10 +12,7 @@ import com.unearth.pushtotalk.data.source.AudioFileDatabaseHelper;
 import com.unearth.pushtotalk.data.source.AudioFilePersistanceContract;
 import com.unearth.pushtotalk.data.source.AudioModel;
 import com.unearth.pushtotalk.data.source.DataSource;
-
-import java.util.Optional;
-
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 public class LocalDataSource implements DataSource {
@@ -40,7 +37,7 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public Flowable<Optional<AudioModel>> createAudioFile(AudioModel audioFile) {
+    public Observable<AudioModel>createAudioFile(AudioModel audioFile) {
         ContentValues values = new ContentValues();
         values.put(AudioFilePersistanceContract.AudioFileEntry.COLUMN_CREATE_DATE, System.currentTimeMillis());
         values.put(AudioFilePersistanceContract.AudioFileEntry.COLUMN_DIRTY, DIRTY);
@@ -50,12 +47,12 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public void updateAudioFile() {
+    public void updateAudioFile(AudioModel audioModel) {
 
     }
 
     @Override
-    public void deleteAudioFile() {
+    public void deleteAudioFile(long id) {
 
     }
 }

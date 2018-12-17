@@ -10,16 +10,15 @@ import java.io.File;
 
 public class FileUtil {
 
+    private static String EXT = ".mp4";
+
     public static void createAppDirectory(String appName) {
         File dir = new File(Environment.getExternalStorageDirectory(), appName);
         if (!dir.exists())
             dir.mkdir();
     }
 
-    public static File getNewAudioFile(String appName, String fileName) {
-        File file =  new File(Environment.getExternalStorageDirectory(),
-                appName + File.separator + fileName);
-        file.mkdir();
-        return file;
+    public static String getNewAudioFileName(String appName, String fileName) {
+        return Environment.getExternalStorageDirectory() + File.separator + appName + File.separator + fileName + EXT;
     }
 }

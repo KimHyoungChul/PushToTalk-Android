@@ -1,7 +1,5 @@
 package com.unearth.pushtotalk.data.source;
 
-import android.support.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -11,17 +9,17 @@ import java.util.Date;
  */
 public class AudioModel {
 
-    @NonNull
-    private final String localFilePath;
+    private String localFilePath;
 
-    @NonNull
-    private final Date date;
+    private Date createdAt;
+
+    private Date updatedAt;
 
     /**
      * Primary key of {@link AudioModel} in server mongoDB
      */
-    @SerializedName("id")
-    private Long remoteId;
+    @SerializedName("_id")
+    private String remoteId;
 
     /**
      * Url of audio file on the server.
@@ -30,14 +28,11 @@ public class AudioModel {
 
     private Long localId;
 
-    private String localPath;
-
-    public AudioModel(String filePath, Date date) {
+    public AudioModel(String filePath) {
         this.localFilePath = filePath;
-        this.date = date;
     }
 
-    public Long getReoteId() {
+    public String getRemoteId() {
         return remoteId;
     }
 
@@ -50,14 +45,14 @@ public class AudioModel {
     }
 
     public String getLocalPath() {
-        return localPath;
+        return localFilePath;
     }
 
     public void setMediaUrl(String mediaUrl) {
         this.mediaUrl = mediaUrl;
     }
 
-    public void setRemoteId(Long remoteId) {
+    public void setRemoteId(String remoteId) {
         this.remoteId = remoteId;
     }
 }

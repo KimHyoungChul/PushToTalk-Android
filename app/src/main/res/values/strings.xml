@@ -90,4 +90,9 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="recording_started">Recording Started</string>
+    <string name="recording_stopped">Recording Stopped</string>
+    <string name="network_error">Network Error</string>
+    <string name="network_error_message_file_upload">Network error occurred while uploading Audiofile</string>
+    <string name="file_uploaded_successfully">File Uploaded Successfully</string>
 </resources>

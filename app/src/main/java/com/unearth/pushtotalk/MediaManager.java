@@ -1,5 +1,6 @@
 package com.unearth.pushtotalk;
 
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.util.Log;
 
@@ -11,13 +12,14 @@ import java.io.IOException;
 public class MediaManager {
 
     private MediaRecorder mRecorder;
+    private MediaPlayer mPlayer;
 
     public MediaManager() {}
 
     public void startRecording(String fileName) {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mRecorder.setOutputFile(fileName);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 

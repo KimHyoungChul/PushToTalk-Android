@@ -11,7 +11,8 @@ import java.util.GregorianCalendar;
  */
 
 public class DateTimeUtil {
-    public static String millisecondsToDatePrettyPrint(long time) {
+
+    public static String millisecondsToDateForFileName(long time) {
         DateFormat FORMAT = new SimpleDateFormat("HH_mm_ss.SSS_MM_dd_yyyy");
         Calendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(time);
