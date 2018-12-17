@@ -14,6 +14,15 @@ import io.reactivex.disposables.Disposable;
  */
 public class DataRepository implements DataSource {
 
+    private final DataSource mLocalRepository;
+
+    private final DataSource mRemoteRepository;
+
+    /**
+     * In memory cache of {@link AudioModel}
+     */
+    private LinkedHashMap<Long, AudioModel> mCachedAudioFiles;
+
     private static DataRepository INSTANCE;
 
     /**
@@ -31,15 +40,6 @@ public class DataRepository implements DataSource {
         return INSTANCE;
     }
 
-    private final DataSource mLocalRepository;
-
-    private final DataSource mRemoteRepository;
-
-    /**
-     * In memory cache of {@link AudioModel}
-     */
-    private LinkedHashMap<Long, AudioModel> mCachedAudioFiles;
-
     private DataRepository(@NonNull DataSource localRepository,
                            DataSource remoteRepository) {
 
@@ -56,12 +56,12 @@ public class DataRepository implements DataSource {
 
     @Override
     public void updateAudioFile(AudioModel audioModel) {
-
+        //TODO: implment update
     }
 
     @Override
     public void deleteAudioFile(long id) {
-
+        //TODO: implment delete
     }
 
     @NonNull

@@ -16,6 +16,8 @@ import retrofit2.Retrofit;
 
 public class RemoteDataSource implements DataSource {
 
+    private final Retrofit mRetrofit;
+
     private static RemoteDataSource INSTANCE;
 
     public static RemoteDataSource getInstance(Retrofit retrofit) {
@@ -24,8 +26,6 @@ public class RemoteDataSource implements DataSource {
         }
         return INSTANCE;
     }
-
-    private final Retrofit mRetrofit;
 
     private RemoteDataSource(Retrofit retrofit) {
         mRetrofit = retrofit;
