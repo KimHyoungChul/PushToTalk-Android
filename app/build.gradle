@@ -20,6 +20,21 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    flavorDimensions 'buildType'
+
+    productFlavors {
+        mock {
+            dimension 'buildType'
+            applicationIdSuffix = ".mock"
+            buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:50192/\""
+        }
+        prod {
+            dimension 'buildType'
+            buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:50192/\""
+
+        }
+    }
 }
 
 dependencies {
